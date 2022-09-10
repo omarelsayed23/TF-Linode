@@ -20,8 +20,8 @@ resource "linode_stackscript" "juno_stackscript" {
   rev_note = "initial version"
   script = <<EOF
 #!/bin/sh
-mkdir etman
-echo "etman is here"
+mkdir omar
+echo "omar is here"
 EOF
 }
 
