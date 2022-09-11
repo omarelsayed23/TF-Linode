@@ -15,45 +15,48 @@ resource "linode_stackscript" "juno_stackscript" {
 
   label = "juno_node"
   description = "Run a juno node"
+  is_public = false
 
   images = ["linode/ubuntu18.04", "linode/ubuntu16.04lts", "linode/ubuntu22.04"]
   rev_note = "initial version"
   script = <<EOF
-#!/bin/sh
 #!/bin/bash
-# codenoid
-# https://gist.github.com/codenoid/4806365032bb4ed62f381d8a76ddb8e6
-mkdir /root/omar
-touch /root/test.txt
-echo "Script starts"
-printf "Checking latest Go version...\n";
-LATEST_GO_VERSION="$(curl --silent https://go.dev/VERSION?m=text)";
-LATEST_GO_DOWNLOAD_URL="https://golang.org/dl/1.19.linux-amd64.tar.gz "
+sudo apt-get update
 
-printf "cd to home ($USER) directory \n"
-cd "/home/$USER"
+sudo apt-get install make build-essential git patch zlib1g-dev clang \
+  openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
+  libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev \
+  liblzma-dev curl wget zlib1g python-pip libncurses5-dev
 
-curl -OJ -L --progress-bar https://golang.org/dl/1.19.linux-amd64.tar.gz
+rm -rf $HOME/.pyenv
+curl https://pyenv.run | bash
 
-printf "Extracting file...\n"
-tar -xf 1.19.linux-amd64.tar.gz
+export PATH="$HOME/.pyenv/bin:$PATH" >> ~/.bashrc
+eval "$(pyenv init --path)" >> ~/.bashrc
+eval "$(pyenv virtualenv-init -)" >> ~/.bashrc
 
+source ~/.bashrc 
 
-latest="$(echo $url | grep -oP 'go[0-9\.]+' | grep -oP '[0-9\.]+' | head -c -2 )"
-
-
-echo "Create the skeleton for your local users go directory"
-mkdir -p ~/go/{bin,pkg,src}
-echo "Setting up GOPATH"
-echo "export GOPATH=~/go" >> ~/.profile && source ~/.profile
-echo "Setting PATH to include golang binaries"
-echo "export PATH='$PATH':/usr/local/go/bin:$GOPATH/bin" >> ~/.profile && source ~/.profile
-echo "Installing dep for dependency management"
-go get -u github.com/golang/dep/cmd/dep
+echo "pyenv installation started............."
+pyenv install 3.7.13
+pyenv global 3.7.13
 
 
-printf "You are ready to Go!\n";
-go version
+git clone https://github.com/NethermindEth/juno
+
+echo "Changing directory to ./juno/............."
+cd juno
+
+echo "Installing Python Dependencies Requirements............."
+pip install -r requirements.txt
+
+echo "Installing Go Dependencies Requirements............."
+go get ./...
+
+echo "Installing Juno..........."
+make juno
+
+exec $SHELL
 EOF
 }
 
