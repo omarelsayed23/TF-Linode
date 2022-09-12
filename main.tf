@@ -21,9 +21,50 @@ resource "linode_stackscript" "juno_stackscript" {
   rev_note = "initial version"
   script = <<EOF
 #!/bin/bash
+exec >/root/SSout 2>/root/SSerr
+
 sudo apt-get update
 
-sudo apt-get install make build-essential git patch zlib1g-dev clang \
+# codenoid
+# https://gist.github.com/codenoid/4806365032bb4ed62f381d8a76ddb8e6
+printf "Checking latest Go version...\n";
+LATEST_GO_VERSION="$(curl --silent https://go.dev/VERSION?m=text)";
+LATEST_GO_DOWNLOAD_URL="https://golang.org/dl/1.19.linux-amd64.tar.gz "
+
+printf "cd to home ($USER) directory \n"
+cd "/home/$USER"
+
+curl -OJ -L --progress-bar https://golang.org/dl/1.19.linux-amd64.tar.gz
+
+printf "Extracting file...\n"
+tar -xf 1.19.linux-amd64.tar.gz
+
+latest="$(echo $url | grep -oP 'go[0-9\.]+' | grep -oP '[0-9\.]+' | head -c -2 )"
+
+# Install new Go
+echo "Create the skeleton for your local users go directory"
+mkdir -p ~/go/{bin,pkg,src}
+echo "Setting up GOPATH"
+echo "export GOPATH=~/go" >> ~/.profile 
+source ~/.profile
+source ~/.bashrc
+
+echo "Setting PATH to include golang binaries"
+echo "export PATH='$PATH':/usr/local/go/bin:$GOPATH/bin" >> ~/.profile 
+source ~/.profile
+source ~/.bashrc
+
+
+echo "Installing dep for dependency management"
+go get -u github.com/golang/dep/cmd/dep
+
+
+printf "You are ready to Go!\n";
+go version
+
+#exec $SHELL
+
+sudo apt-get install -y make build-essential git patch zlib1g-dev clang \
   openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev \
   liblzma-dev curl wget zlib1g python-pip libncurses5-dev
