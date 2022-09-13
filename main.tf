@@ -32,12 +32,12 @@ LATEST_GO_VERSION="$(curl --silent https://go.dev/VERSION?m=text)";
 LATEST_GO_DOWNLOAD_URL="https://golang.org/dl/1.19.linux-amd64.tar.gz "
 
 printf "cd to home ($USER) directory \n"
-cd "/home/$USER"
+cd "/root/"
 
 curl -OJ -L --progress-bar https://golang.org/dl/1.19.linux-amd64.tar.gz
 
 printf "Extracting file...\n"
-tar -xf 1.19.linux-amd64.tar.gz
+tar -xf /root/1.19.linux-amd64.tar.gz
 
 latest="$(echo $url | grep -oP 'go[0-9\.]+' | grep -oP '[0-9\.]+' | head -c -2 )"
 
@@ -46,11 +46,13 @@ echo "Create the skeleton for your local users go directory"
 mkdir -p ~/go/{bin,pkg,src}
 echo "Setting up GOPATH"
 echo "export GOPATH=~/go" >> ~/.profile 
+export GOPATH
 source ~/.profile
 source ~/.bashrc
 
 echo "Setting PATH to include golang binaries"
 echo "export PATH='$PATH':/usr/local/go/bin:$GOPATH/bin" >> ~/.profile 
+export PATH
 source ~/.profile
 source ~/.bashrc
 
@@ -62,7 +64,7 @@ go get -u github.com/golang/dep/cmd/dep
 printf "You are ready to Go!\n";
 go version
 
-#exec $SHELL
+export go
 
 sudo apt-get install -y make build-essential git patch zlib1g-dev clang \
   openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
@@ -82,11 +84,12 @@ echo "pyenv installation started............."
 pyenv install 3.7.13
 pyenv global 3.7.13
 
+cd "/root/"
 
 git clone https://github.com/NethermindEth/juno
 
 echo "Changing directory to ./juno/............."
-cd juno
+cd /root/juno
 
 echo "Installing Python Dependencies Requirements............."
 pip install -r requirements.txt
@@ -95,6 +98,9 @@ echo "Installing Go Dependencies Requirements............."
 go get ./...
 
 echo "Installing Juno..........."
+
+cd /root/juno
+
 make juno
 
 exec $SHELL
