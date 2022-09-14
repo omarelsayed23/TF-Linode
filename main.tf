@@ -29,15 +29,15 @@ sudo apt-get update
 # https://gist.github.com/codenoid/4806365032bb4ed62f381d8a76ddb8e6
 printf "Checking latest Go version...\n";
 LATEST_GO_VERSION="$(curl --silent https://go.dev/VERSION?m=text)";
-LATEST_GO_DOWNLOAD_URL="https://golang.org/dl/1.19.linux-amd64.tar.gz "
+LATEST_GO_DOWNLOAD_URL="https://golang.org/dl/go1.19.linux-amd64.tar.gz"
 
 printf "cd to home ($USER) directory \n"
 cd "/root/"
 
-curl -OJ -L --progress-bar https://golang.org/dl/1.19.linux-amd64.tar.gz
+curl -OJ -L --progress-bar https://golang.org/dl/go1.19.linux-amd64.tar.gz
 
 printf "Extracting file...\n"
-tar -xf /root/1.19.linux-amd64.tar.gz
+tar -xf /root/go1.19.linux-amd64.tar.gz -C /root/
 
 latest="$(echo $url | grep -oP 'go[0-9\.]+' | grep -oP '[0-9\.]+' | head -c -2 )"
 
@@ -63,8 +63,6 @@ go get -u github.com/golang/dep/cmd/dep
 
 printf "You are ready to Go!\n";
 go version
-
-export go
 
 sudo apt-get install -y make build-essential git patch zlib1g-dev clang \
   openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev llvm \
