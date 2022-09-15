@@ -101,7 +101,8 @@ cd /root/juno
 
 make juno
 
-exec $SHELL
+./build/juno
+
 EOF
 }
 
