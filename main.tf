@@ -115,7 +115,7 @@ resource "linode_instance" "juno_node" {
   region = "us-east"
   type   = "g6-standard-2"
 #   authorized_keys    = [var.authorized_keys]
-  authorized_keys    = "hello"
+  authorized_keys    = ["hello"]
 #   authorized_keys    = [${{ secrets.authorized_keys }}]
 #   root_pass      = var.root_pass
   root_pass      = "hello"
