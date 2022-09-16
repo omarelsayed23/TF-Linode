@@ -34,7 +34,7 @@ jobs:
       uses: brendon1555/setup-linode-cli@master
       with:
         LINODE_CLI_TOKEN: ${{ secrets.LINODE_CLI_TOKEN }}
-    - run: linode-cli --help
+    #- run: linode-cli --help
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
