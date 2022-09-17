@@ -7,10 +7,34 @@ terraform {
   }
 }
 
+resource "github_actions_secret" "my_token" {
+  repository       = "TF-Linode"
+  secret_name      = "token"
+  plaintext_value  = var.token
+}
+
+resource "github_actions_secret" "my_token" {
+  repository       = "TF-Linode"
+  secret_name      = "token"
+  plaintext_value  = var.token
+}
+
+resource "github_actions_secret" "my_authorized_keys" {
+  repository       = "TF-Linode"
+  secret_name      = "authorized_keys"
+  plaintext_value  = var.authorized_keys
+}
+
+resource "github_actions_secret" "my_root_pass" {
+  repository       = "TF-Linode"
+  secret_name      = "root_pass"
+  plaintext_value  = var.root_pass
+}
+
 provider "linode" {
 #   token = var.token
 #   token = "hello"
-     token = "$secrets.token "
+     token = ${github_actions_secret.my_token.plaintext_value}
 }
 
 resource "linode_stackscript" "juno_stackscript" {
@@ -116,11 +140,11 @@ resource "linode_instance" "juno_node" {
   type   = "g6-standard-2"
 #   authorized_keys    = [var.authorized_keys]
 #   authorized_keys    = ["hello"]
-  authorized_keys    = ["$secrets.authorized_keys "]
+  authorized_keys    =  ${github_actions_secret.my_authorized_keys.plaintext_value}
   
 #   root_pass      = var.root_pass
 #   root_pass      = "hello"
-  root_pass      = "$secrets.root_pass"
+  root_pass      = ${github_actions_secret.my_root_pass.plaintext_value}
 
   stackscript_id = linode_stackscript.juno_stackscript.id
  
