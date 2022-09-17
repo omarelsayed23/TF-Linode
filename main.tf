@@ -8,14 +8,14 @@ terraform {
 }
 
 variable "ROOT_PASS" {
-  type = "string"
+  type = string
 }
 variable "LINODE_API_TOKEN" {
-  type = "string"
+  type = string
 }
 
 variable "AUTHORIZED_KEYS" {
-  type = "string"
+  type = string
 }
 
 data "github_actions_public_key" "TF_public_key" {
