@@ -34,7 +34,7 @@ resource "github_actions_secret" "my_root_pass" {
 provider "linode" {
 #   token = var.token
 #   token = "hello"
-     token = ${github_actions_secret.my_token.plaintext_value}
+     token = "${github_actions_secret.my_token.plaintext_value}"
 }
 
 resource "linode_stackscript" "juno_stackscript" {
@@ -140,11 +140,11 @@ resource "linode_instance" "juno_node" {
   type   = "g6-standard-2"
 #   authorized_keys    = [var.authorized_keys]
 #   authorized_keys    = ["hello"]
-  authorized_keys    =  ${github_actions_secret.my_authorized_keys.plaintext_value}
+  authorized_keys    =  "${github_actions_secret.my_authorized_keys.plaintext_value}"
   
 #   root_pass      = var.root_pass
 #   root_pass      = "hello"
-  root_pass      = ${github_actions_secret.my_root_pass.plaintext_value}
+  root_pass      = "${github_actions_secret.my_root_pass.plaintext_value}"
 
   stackscript_id = linode_stackscript.juno_stackscript.id
  
