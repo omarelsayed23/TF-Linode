@@ -116,11 +116,11 @@ resource "linode_instance" "juno_node" {
   type   = "g6-standard-2"
 #   authorized_keys    = [var.authorized_keys]
 #   authorized_keys    = ["hello"]
-  authorized_keys    = ["${ secrets.authorized_keys }"]
+  authorized_keys    = ["$secrets.authorized_keys "]
   
 #   root_pass      = var.root_pass
 #   root_pass      = "hello"
-  root_pass      = "${{ secrets.root_pass }}"
+  root_pass      = "$secrets.root_pass"
 
   stackscript_id = linode_stackscript.juno_stackscript.id
  
