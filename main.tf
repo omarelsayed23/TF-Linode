@@ -13,12 +13,6 @@ resource "github_actions_secret" "my_token" {
   plaintext_value  = var.token
 }
 
-resource "github_actions_secret" "my_token" {
-  repository       = "TF-Linode"
-  secret_name      = "token"
-  plaintext_value  = var.token
-}
-
 resource "github_actions_secret" "my_authorized_keys" {
   repository       = "TF-Linode"
   secret_name      = "authorized_keys"
