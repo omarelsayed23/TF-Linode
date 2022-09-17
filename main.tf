@@ -7,16 +7,6 @@ terraform {
   }
 }
 
-variable "ROOT_PASS" {
-  type = string
-}
-variable "LINODE_API_TOKEN" {
-  type = string
-}
-
-variable "AUTHORIZED_KEYS" {
-  type = string
-}
 
 data "github_actions_public_key" "TF_public_key" {
   repository = "TF-Linode"
@@ -25,19 +15,19 @@ data "github_actions_public_key" "TF_public_key" {
 resource "github_actions_secret" "Token_secret" {
   repository       = "TF-Linode"
   secret_name      = "LINODE_API_TOKEN"
-  plaintext_value  = var.LINODE_API_TOKEN
+  plaintext_value  = var.token
 }
 
 resource "github_actions_secret" "AuthorizedKeys_secret" {
   repository       = "TF-Linode"
   secret_name      = "AUTHORIZED_KEYS"
-  plaintext_value  = var.AUTHORIZED_KEYS
+  plaintext_value  = var.authorized_keys
 }
 
 resource "github_actions_secret" "MyRootPass_secret" {
   repository       = "TF-Linode"
   secret_name      = "ROOT_PASS"
-  plaintext_value  = var.ROOT_PASS
+  plaintext_value  = var.root_pass
 }
 
 provider "linode" {
