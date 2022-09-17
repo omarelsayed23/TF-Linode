@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+data "github_actions_public_key" "TF_public_key" {
+  repository = "TF-Linode"
+}
+
 resource "github_actions_secret" "my_token" {
   repository       = "TF-Linode"
   secret_name      = "LINODE_API_TOKEN"
