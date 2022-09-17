@@ -9,20 +9,20 @@ terraform {
 
 resource "github_actions_secret" "my_token" {
   repository       = "TF-Linode"
-  secret_name      = "token"
-  plaintext_value  = var.token
+  secret_name      = "LINODE_API_TOKEN"
+  plaintext_value  = var.LINODE_API_TOKEN
 }
 
 resource "github_actions_secret" "my_authorized_keys" {
   repository       = "TF-Linode"
-  secret_name      = "authorized_keys"
-  plaintext_value  = var.authorized_keys
+  secret_name      = "AUTHORIZED_KEYS"
+  plaintext_value  = var.AUTHORIZED_KEYS
 }
 
 resource "github_actions_secret" "my_root_pass" {
   repository       = "TF-Linode"
-  secret_name      = "root_pass"
-  plaintext_value  = var.root_pass
+  secret_name      = "ROOT_PASS"
+  plaintext_value  = var.ROOT_PASS
 }
 
 provider "linode" {
