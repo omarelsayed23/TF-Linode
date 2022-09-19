@@ -24,26 +24,16 @@ provider "aws" {
 }
 
 ################ New Part for Secrets ##################
-/*
-data "aws_secretsmanager_secret" "secrets" {
-  
-  #name = "linode_creds"
-  arn = "arn:aws:secretsmanager:us-east-1:274758204841:secret:linode_creds-MWIATS"
-}
-*/
+
 data "aws_secretsmanager_secret_version" "creds" {
   secret_id = "linode_creds"
 }
 
 
-
-
 locals{
-
   my_token = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["token"]
   my_root_pass = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["root_pass"]
   my_authorized_keys = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["authorized_keys"]
-
 }
 
 
