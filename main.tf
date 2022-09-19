@@ -7,6 +7,16 @@ terraform {
   }
 }
 
+################ New Part for Secrets ##################
+locals{
+linode_creds = jsondecode(data.aws_secretmanager_secret_version.creds.secret_string)
+}
+
+data "aws_secretmanager_secret_version" "creds"{
+secret_id = "AWS_SECRET_NAME"
+}
+########################################################
+
 provider "linode" {
   token = var.token
 }
