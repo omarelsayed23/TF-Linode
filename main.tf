@@ -7,28 +7,15 @@ terraform {
   }
 }
 
-
-data "github_actions_public_key" "TF_public_key" {
-  repository = "TF-Linode"
+################ New Part for Secrets ##################
+locals{
+linode_creds = jsondecode(data.aws_secretmanager_secret_version.creds.secrt_string)
 }
 
-resource "github_actions_secret" "Token_secret" {
-  repository       = "TF-Linode"
-  secret_name      = "LINODE_API_TOKEN"
-  plaintext_value  = var.token
+data "aws_secretmanager_secret_version" "creds"{
+secret_id = "AWS_SECRET_NAME"
 }
-
-resource "github_actions_secret" "AuthorizedKeys_secret" {
-  repository       = "TF-Linode"
-  secret_name      = "AUTHORIZED_KEYS"
-  plaintext_value  = var.authorized_keys
-}
-
-resource "github_actions_secret" "MyRootPass_secret" {
-  repository       = "TF-Linode"
-  secret_name      = "ROOT_PASS"
-  plaintext_value  = var.root_pass
-}
+########################################################
 
 provider "linode" {
 #   token = var.token
@@ -146,5 +133,5 @@ resource "linode_instance" "juno_node" {
   root_pass      = github_actions_secret.MyRootPass_secret.plaintext_value
 
   stackscript_id = linode_stackscript.juno_stackscript.id
- 
+ # INSERT NEW CREDS FROM AWS SECRETS HERE
 }
