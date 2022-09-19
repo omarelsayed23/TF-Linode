@@ -9,7 +9,7 @@ terraform {
 
 ################ New Part for Secrets ##################
 locals{
-linode_creds = jsondecode(data.aws_secretmanager_secret_version.creds.secrt_string)
+linode_creds = jsondecode(data.aws_secretmanager_secret_version.creds.secret_string)
 }
 
 data "aws_secretmanager_secret_version" "creds"{
