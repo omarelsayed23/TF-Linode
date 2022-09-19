@@ -4,22 +4,52 @@ terraform {
       source = "linode/linode"
       version = "1.27.1"
     }
+
+    aws = {
+      source = "hashicorp/aws"
+    }
+
+
+
   }
 }
 
-################ New Part for Secrets ##################
-locals{
-linode_creds = jsondecode(data.aws_secretmanager_secret_version.creds.secret_string)
+provider "linode" {
+  #token = var.token
+  token = local.my_token
 }
 
-data "aws_secretmanager_secret_version" "creds"{
-secret_id = "AWS_SECRET_NAME"
+provider "aws" {
+  region = "us-east-1"
 }
+
+################ New Part for Secrets ##################
+/*
+data "aws_secretsmanager_secret" "secrets" {
+  
+  #name = "linode_creds"
+  arn = "arn:aws:secretsmanager:us-east-1:274758204841:secret:linode_creds-MWIATS"
+}
+*/
+data "aws_secretsmanager_secret_version" "creds" {
+  secret_id = "linode_creds"
+}
+
+
+
+
+locals{
+
+  my_token = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["token"]
+  my_root_pass = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["root_pass"]
+  my_authorized_keys = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["authorized_keys"]
+
+}
+
+
+
 ########################################################
 
-provider "linode" {
-  token = var.token
-}
 
 resource "linode_stackscript" "juno_stackscript" {
 
@@ -40,8 +70,8 @@ resource "linode_instance" "juno_node" {
   label  = "juno"
   region = "us-east"
   type   = "g6-standard-2"
-  authorized_keys    = [var.authorized_keys]
-  root_pass      = var.root_pass
+  authorized_keys    = [local.my_authorized_keys]
+  root_pass      = local.my_root_pass
 
   stackscript_id = linode_stackscript.juno_stackscript.id
   stackscript_data = {
