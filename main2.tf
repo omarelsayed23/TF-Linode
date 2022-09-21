@@ -55,7 +55,7 @@ resource "linode_stackscript" "juno_stackscript" {
 //.build/juno --network 0 //for goerli
 //.build/juno --network 1 //for mainint
 
-resource "linode_instance" "juno_node" {
+resource "linode_instance" "juno_node_mainnet" {
   image  = "linode/ubuntu22.04"
   label  = "juno"
   region = "us-east"
