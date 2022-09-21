@@ -49,7 +49,7 @@ resource "linode_stackscript" "juno_stackscript" {
 
   images = ["linode/ubuntu18.04", "linode/ubuntu16.04lts", "linode/ubuntu22.04"]
   rev_note = "initial version"
-  script   = file(var.nodes_script_file)
+  script   = file("run-juno-testnet.sh")
 
 }
 //.build/juno --network 0 //for goerli
