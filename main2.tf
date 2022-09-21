@@ -41,9 +41,9 @@ locals{
 ########################################################
 
 
-resource "linode_stackscript" "juno_stackscript" {
+resource "linode_stackscript" "juno_mainnet_stackscript" {
 
-  label = "juno_node"
+  label = "juno_mainnet_stackscript"
   description = "Run a juno node"
   is_public = false
 
