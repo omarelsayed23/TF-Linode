@@ -22,7 +22,7 @@ provider "linode" {
 provider "aws" {
   region = "us-east-1"
 access_key = "$TF_VAR_AWS_ACCESS_KEY_ID"
-access_secret = "$TF_VAR_AWS_ACCESS_SECRET_KEY"
+access_secret = "$TF_VAR_AWS_SECRET_ACCESS_KEY"
 }
 
 ################ New Part for Secrets ##################
