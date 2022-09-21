@@ -57,7 +57,7 @@ resource "linode_stackscript" "juno_stackscript" {
 
 resource "linode_instance" "juno_node_testnet" {
   image  = "linode/ubuntu22.04"
-  label  = "juno"
+  label  = "juno_node_testnet"
   region = "us-east"
   type   = "g6-standard-2"
   authorized_keys    = [local.my_authorized_keys]
