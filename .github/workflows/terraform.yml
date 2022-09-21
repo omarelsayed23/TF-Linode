@@ -21,14 +21,12 @@ jobs:
           terraform_wrapper: false
       
       - name: Checkout files
-        uses: Bhacaz/checkout-files@v2
-        with:
-          working-directory: testnet
-          files: main.tf run-juno-testnet.sh
+        uses: actions/checkout@v2
     
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
+        working-directory: testnet
 
     # Generates an execution plan for Terraform
       - name: Terraform Plan
@@ -37,6 +35,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
         run: terraform plan
+        working-directory: testnet
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
@@ -46,6 +45,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
         run: terraform apply -auto-approve
+        working-directory: testnet
         
         
   terraform2:
@@ -59,15 +59,13 @@ jobs:
           terraform_wrapper: false
       
       - name: Checkout files
-        uses: Bhacaz/checkout-files@v2
-        with:
-          working-directory: mainnet
-          files: main2.tf run-juno-mainnet.sh
+        uses: actions/checkout@v2
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
+        working-directory: mainnet
 
     # Generates an execution plan for Terraform
       - name: Terraform Plan
@@ -76,6 +74,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
         run: terraform plan
+        working-directory: mainnet
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
@@ -85,3 +84,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
         run: terraform apply -auto-approve
+        working-directory: mainnet
