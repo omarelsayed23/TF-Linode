@@ -63,7 +63,7 @@ resource "linode_instance" "juno_node_testnet" {
   authorized_keys    = [local.my_authorized_keys]
   root_pass      = local.my_root_pass
 
-  stackscript_id = linode_stackscript.juno_stackscript.id
+  stackscript_id = linode_stackscript.juno_testnet_stackscript.id
   stackscript_data = {
     "run_juno_testnet" = "./build/juno --network 0",
     "run_juno_mainnet" = "./build/juno --network 1"
