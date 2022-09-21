@@ -41,7 +41,7 @@ locals{
 ########################################################
 
 
-resource "linode_stackscript" "juno_stackscript" {
+resource "linode_stackscript" "juno_testnet_stackscript" {
 
   label = "juno_testnet_stackscript"
   description = "Run a juno node"
