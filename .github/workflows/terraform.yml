@@ -23,7 +23,7 @@ jobs:
       - name: Checkout files
         uses: Bhacaz/checkout-files@v2
         with:
-          working-directory: ./testnet
+          working-directory: testnet
           files: main.tf run-juno-testnet.sh
     
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
@@ -61,7 +61,7 @@ jobs:
       - name: Checkout files
         uses: Bhacaz/checkout-files@v2
         with:
-          working-directory: ./mainnet
+          working-directory: mainnet
           files: main2.tf run-juno-mainnet.sh
 
 
